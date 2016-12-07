@@ -30,7 +30,8 @@ var data = [
 	'img/bg/17.png',
 	'img/bg/18.png',
 	'img/bg/19.png',
-	'img/bg/20.png'
+	'img/bg/20.png',
+    'img/bg/bg.jpg'
 ];
 var dataPieces = [
 	'img/load/loadIco1.png',
