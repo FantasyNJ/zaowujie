@@ -51,6 +51,26 @@ p{
     }
 }
 
+.music{
+    width: 59px;height: 50px;
+    position: absolute;
+    left: 0.3rem;
+    top: 0.3rem;
+    background-image: url(../img/music.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: none;
+    z-index: 100;
+}
+.music.pause{
+    background-image: url(../img/music_pause.png);
+}
+.music video{
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
 .content,
 .loading{
 	position: absolute;
@@ -141,10 +161,6 @@ p{
     /*transition: 5s;*/
     /*transform: rotateY(0deg) scale(0);*/
 }
-
-/*.ani{*/
-    /*transform: rotateY(360deg) scale(1);*/
-/*}*/
 
 .main span{
     position: absolute;

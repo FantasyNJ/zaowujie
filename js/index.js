@@ -31,7 +31,9 @@ var data = [
 	'img/bg/18.png',
 	'img/bg/19.png',
 	'img/bg/20.png',
-    'img/bg/bg.jpg'
+    'img/bg/bg.jpg',
+    'img/music.png',
+    'img/music_pause.png'
 ];
 var dataPieces = [
 	'img/load/loadIco1.png',
@@ -95,10 +97,14 @@ for(var i = 0; i < data.length ; i++){
 }
 
 var oP = document.querySelector('.logo1 p');
+var loading = document.querySelector('.loading');
 var logo1 = document.querySelector('.logo1');
 var logo2 = document.querySelector('.logo2');
 var logo3 = document.querySelector('.logo3');
 var logo4 = document.querySelector('.logo4');
+var music = document.querySelector('.music');
+var audioElem = document.querySelector('.music audio');
+music.isPlay = false;  //默认不播放
 
 function hideLogo1(){
 	// ningjs(logo1, {scale:0}, 1000, 'easeOut', showLogo2);
@@ -110,6 +116,7 @@ function hideLogo1(){
 }
 function showLogo2(){
 	logo1.parentNode.removeChild(logo1);
+    music.style.display = 'block';
 	logo2.style.transform = 'scale(1)';
 	logo2.style.WebkitTransform = 'scale(1)';
 	setTimeout(function(){
@@ -166,12 +173,36 @@ function showLogo4(){
     },1500);
     setTimeout(function(){
         logo4.parentNode.removeChild(logo4);
-
+        loading.parentNode.removeChild(loading);
     },2500);
     setTimeout(function(){
         cylinder();
     },3000)
 }
+
+//音乐
+function musicPlay(){
+    audioElem.play();
+    music.className = 'music';
+    music.isPlay = true;
+}
+function musicPause(){
+    audioElem.pause();
+    music.className = 'music pause';
+    music.isPlay = false;
+}
+
+music.addEventListener('touchstart', function(e){
+    if(music.isPlay){
+        musicPause();
+    }else{
+        musicPlay();
+    }
+    e.stopPropagation();
+})
+loading.addEventListener('touchstart', function(e){
+})
+
 
 //绘制圆柱
 function cylinder(){
@@ -187,8 +218,6 @@ function cylinder(){
         mainWrap.appendChild(span);
     }
 
-
-
     css(mainWrap, 'scale', 5);
     movejs(mainWrap, {rotateY: 720,scale: 90}, 3000, 'linear', function(){
         setTimeout(function(){
@@ -197,7 +226,6 @@ function cylinder(){
             var startX = 0;
             var startY = 0;
             var startdeg = css(mainWrap, 'rotateY');
-            console.log(mainWrap);
             document.body.addEventListener('touchstart', function(e){
                 startX = e.changedTouches[0].pageX;
                 startdeg = css(mainWrap, 'rotateY');
@@ -217,10 +245,6 @@ function cylinder(){
             document.body.addEventListener('touchend', function(e){
                 movejs(mainWrap, {scale: 90}, 100, 'linear');
             });
-
-            document.body.addEventListener('click', function(){
-                alert(1)
-            })
             //手机倾斜
             //var startAlpha = null;
             //var startRotateY = 0;
@@ -242,11 +266,3 @@ function cylinder(){
     });
 }
 
-
-
-
-
-
-//setTimeout(function(){
-//    mainWrap.className = 'main ani';
-//}, 20)
