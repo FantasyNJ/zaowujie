@@ -154,6 +154,7 @@ p{
     height: 1170px;
     margin-top: -585px;
     margin-left: -64.5px;
+	-weblit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
