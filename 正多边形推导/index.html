@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @keyframes rotate{
+            0%{
+                transform: rotateY(0deg);
+            }
+            100%{
+                transform: rotateY(360deg);
+            }
+        }
+        .wrap{margin: 50px auto;width: 200px;height: 200px;transform-style: preserve-3d;backface-visibility: hidden;
+            /*animation: 3s rotate linear infinite;*/
+            perspective: 5000px;}
+        .wrap span{position: absolute;width: 200px;height: 200px;text-align: center;line-height: 200px;font-size: 80px;font-weight: bold;opacity: .8;-webkit-backface-visibility: hidden;}
+        .wrap span:nth-of-type(1){
+            background: red;
+        }
+        .wrap span:nth-of-type(2){
+            background: green;
+        }
+        .wrap span:nth-of-type(3){
+            background: yellow;
+        }
+        .wrap span:nth-of-type(4){
+            background: blue;
+        }
+        .wrap span:nth-of-type(5){
+            background: palevioletred;
+        }
+        .wrap span:nth-of-type(6){
+            background: chocolate;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+    <span>5</span>
+    <span>6</span>
+</div>
+<script>
+    var wrap = document.querySelector('.wrap');
+    var span = document.querySelectorAll('.wrap span');
+
+    for(var i = 0; i < span.length;i++){
+        var w = 100;
+        var deg = Math.round(360/span.length);
+        var z = Math.round(w * Math.tan(deg/180*Math.PI));
+        console.log(deg, z, deg/180*Math.PI);
+        span[i].style.transform = 'rotateY('+(i*deg)+'deg) translateZ(-'+z+'px)';
+    }
+</script>
+</body>
+</html>
