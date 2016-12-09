@@ -11,7 +11,6 @@ function cssTransform(el,attr,val){
 				case "scaleY":
 				case "scaleZ":
 					val = 100;
-					console.log(val)
 					break;
 				default:
 					val = 0;
@@ -226,7 +225,6 @@ function movejs(el, target, time, type, callBack){
 			}
 			for(var s in b){
 				var val = parseFloat((Tween[type](t,b[s],c[s],d)).toFixed(2));
-				console.log(val)
 				css(el, s, val);
 			}
 		},

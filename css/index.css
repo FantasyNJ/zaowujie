@@ -158,8 +158,8 @@ p{
     top: 50%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    /*transition: 5s;*/
-    /*transform: rotateY(0deg) scale(0);*/
+    -webkit-transform-origin: 50% 50% 0px;
+    transform-origin: 50% 50% 0px;
 }
 
 .main span{

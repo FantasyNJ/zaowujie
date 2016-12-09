@@ -72,6 +72,7 @@ var dataBg = [
 ];
 dataBg.reverse();
 
+
 //阻止默认事件
 document.addEventListener('touchstart', function(e){
     e.preventDefault();
@@ -80,6 +81,13 @@ document.addEventListener('touchmove', function(e){
     e.preventDefault();
 });
 
+//计算圆柱放大的scale
+var siteHeight = document.body.getBoundingClientRect().height;
+var scalePer = 100;
+if(siteHeight < 736){
+    scalePer = parseInt((siteHeight / 7.36)*0.9);
+}
+console.log(scalePer);
 
 //图片预加载
 var loadedNum = 0;
@@ -107,7 +115,6 @@ var audioElem = document.querySelector('.music audio');
 music.isPlay = false;  //默认不播放
 
 function hideLogo1(){
-	// ningjs(logo1, {scale:0}, 1000, 'easeOut', showLogo2);
 	logo1.style.transform = 'scale(0)';
 	logo1.style.WebkitTransform = 'scale(0)';
 	logo1.style.transition = '1.5s';
@@ -200,8 +207,6 @@ music.addEventListener('touchstart', function(e){
     }
     e.stopPropagation();
 })
-loading.addEventListener('touchstart', function(e){
-})
 
 
 //绘制圆柱
@@ -209,6 +214,7 @@ function cylinder(){
     var mainWrap = document.querySelector('.main');
     var halfW = 64.5;
     var deg = Math.round(360/dataBg.length);
+
     for(var i = 0; i < dataBg.length;i++){
         var span = document.createElement('span');
         var R = Math.abs(Math.round(halfW*Math.tan((180 - deg)/360*Math.PI)));
@@ -219,50 +225,80 @@ function cylinder(){
     }
 
     css(mainWrap, 'scale', 5);
-    movejs(mainWrap, {rotateY: 720,scale: 90}, 3000, 'linear', function(){
+    movejs(mainWrap, {rotateY: 720,scale: scalePer}, 3000, 'linear', function(){
         setTimeout(function(){
             document.body.style.backgroundImage = 'url(img/bg/bg.jpg)';
 
             var startX = 0;
             var startY = 0;
-            var startdeg = css(mainWrap, 'rotateY');
+            var startdegY = css(mainWrap, 'rotateY');
+            var startdegX = css(mainWrap, 'rotateX');
             document.body.addEventListener('touchstart', function(e){
                 startX = e.changedTouches[0].pageX;
-                startdeg = css(mainWrap, 'rotateY');
-                movejs(mainWrap, {scale: 80}, 100, 'linear');
+                startY = e.changedTouches[0].pageY;
+                startdegY = css(mainWrap, 'rotateY');
+                startdegX = css(mainWrap, 'rotateX');
+                movejs(mainWrap, {scale: scalePer*0.8}, 100, 'linear');
+                window.removeEventListener("devicemotion", devicemotion);
 
                 e.stopPropagation();
                 e.preventDefault();
             });
+            var dir = null;
             document.body.addEventListener('touchmove', function(e){
                 var nowX = e.changedTouches[0].pageX;
+                // var nowY = e.changedTouches[0].pageY;
                 var disX = nowX - startX;
-                css(mainWrap, 'rotateY', startdeg-disX/5);
+                // var disY = nowY - startY;
+                // var rotY = disY-startdegX/5;
+                // if( rotY > 20 ){
+                //     rotY = 20;
+                // }
+                // if( rotY < -20 ){
+                //     rotY = -20;
+                // }
+                
+                // if(dir === null && Math.abs(disX) > 5){
+                //     dir = 'x';
+                // }else if(dir === null && Math.abs(disY) > 5){
+                //     dir = 'y';
+                // }
+                // console.log(dir);
+                // if(dir === 'x'){
+                    css(mainWrap, 'rotateY', startdegY-disX/5);
+                // }
+                // if(dir === 'y'){
+                //     css(mainWrap, 'rotateX', rotY);
+                // }
 
                 e.stopPropagation();
                 e.preventDefault();
             });
             document.body.addEventListener('touchend', function(e){
-                movejs(mainWrap, {scale: 90}, 100, 'linear');
+                movejs(mainWrap, {scale: scalePer}, 100, 'linear');
+                dir = null;
+                window.addEventListener("devicemotion", devicemotion);
             });
-            //手机倾斜
-            //var startAlpha = null;
-            //var startRotateY = 0;
-            //var disZ = 0;
-            //window.addEventListener("deviceorientation",function(e){
-            //    //var x = parseInt(e.beta);
-            //    //var y = parseInt(e.gamma);
-            //    if(startAlpha === null){
-            //        startAlpha = parseInt(e.alpha);
-            //        startRotateY = css(mainWrap, 'rotateY')
-            //        disZ = startRotateY - startAlpha;
-            //    }
-            //    var z = parseInt(e.alpha);
-            //
-            //    css(mainWrap, 'rotateY', z+disZ );
-            //});
+            //陀螺仪
+            var tX = 0;
+            window.addEventListener("devicemotion", devicemotion);
+            function devicemotion(e){
+                tX = css(mainWrap, 'rotateY');
+                var motion = e.accelerationIncludingGravity;
+                var x = Number((motion.x).toFixed(0));
+                x = getIos()?x:-x;
+                var y = Number((motion.y).toFixed(0));
+                y = getIos()?y:-y;
+                tX += x;
+                css(mainWrap, 'rotateY', tX);
+            }
         },30);
 
     });
+}
+
+function getIos(){
+    var u = navigator.userAgent;
+    return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
 }
 
