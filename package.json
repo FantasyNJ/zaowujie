@@ -1,0 +1,26 @@
+{
+  "name": "zaowujie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FantasyNJ/zaowujie.git"
+  },
+  "author": "FantasyNJ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FantasyNJ/zaowujie/issues"
+  },
+  "homepage": "https://github.com/FantasyNJ/zaowujie#readme"
+}
