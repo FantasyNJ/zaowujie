@@ -249,7 +249,7 @@ function cylinder(){
                 startY = e.changedTouches[0].pageY;
                 startdegY = css(mainWrap, 'rotateY');
                 startdegX = css(mainWrap, 'rotateX');
-                movejs(mainWrap, {translateZ: -300}, 100, 'linear');
+                movejs(mainWrap, {translateZ: -250}, 100, 'linear');
                 window.removeEventListener("devicemotion", devicemotion);
 
                 e.stopPropagation();
