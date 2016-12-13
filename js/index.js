@@ -87,7 +87,7 @@ var scalePer = 100;
 if(siteHeight < 736){
     scalePer = parseInt((siteHeight / 7.36)*0.9);
 }
-console.log(scalePer);
+// console.log(scalePer);
 
 //图片预加载
 var loadedNum = 0;
@@ -215,17 +215,24 @@ function cylinder(){
     var halfW = 64.5;
     var deg = Math.round(360/dataBg.length);
 
-    for(var i = 0; i < dataBg.length;i++){
-        var span = document.createElement('span');
+    var sHtml = '';
+    for(var i = 0; i < dataBg.length; i++){
+        sHtml += '<span style="background-image:url('+dataBg[i]+')"></span>';
+    }
+    mainWrap.innerHTML = sHtml;
+    var span = mainWrap.children;
+    for(var i = 0; i < span.length;i++){
         var R = Math.abs(Math.round(halfW*Math.tan((180 - deg)/360*Math.PI)));
-        span.style.backgroundImage = 'url('+ dataBg[i] +')';
-        css(span, 'rotateY', i*deg);
-        css(span, 'translateZ', -R);
-        mainWrap.appendChild(span);
+        // span[i].style.backgroundImage = 'url('+ dataBg[i] +')';
+        css(span[i], 'rotateY', i*deg);
+        css(span[i], 'translateZ', -R);
     }
 
-    css(mainWrap, 'scale', 5);
-    movejs(mainWrap, {rotateY: 720,scale: scalePer}, 3000, 'linear', function(){
+    // css(mainWrap, 'scale', 5);  {rotateY: 720,scale: scalePer}
+    css(mainWrap, 'translateZ', -5000);
+    css(mainWrap, 'rotateY', -900);
+    movejs(mainWrap, { translateZ:-200,rotateY:0}, 3000, 'easeOut'
+        , function(){
         setTimeout(function(){
             document.body.style.backgroundImage = 'url(img/bg/bg.jpg)';
 
@@ -238,7 +245,7 @@ function cylinder(){
                 startY = e.changedTouches[0].pageY;
                 startdegY = css(mainWrap, 'rotateY');
                 startdegX = css(mainWrap, 'rotateX');
-                movejs(mainWrap, {scale: scalePer*0.8}, 100, 'linear');
+                movejs(mainWrap, {translateZ: -300}, 100, 'linear');
                 window.removeEventListener("devicemotion", devicemotion);
 
                 e.stopPropagation();
@@ -257,7 +264,7 @@ function cylinder(){
                 // if( rotY < -20 ){
                 //     rotY = -20;
                 // }
-                
+
                 // if(dir === null && Math.abs(disX) > 5){
                 //     dir = 'x';
                 // }else if(dir === null && Math.abs(disY) > 5){
@@ -275,7 +282,7 @@ function cylinder(){
                 e.preventDefault();
             });
             document.body.addEventListener('touchend', function(e){
-                movejs(mainWrap, {scale: scalePer}, 100, 'linear');
+                movejs(mainWrap, {translateZ: -200}, 100, 'linear');
                 dir = null;
                 window.addEventListener("devicemotion", devicemotion);
             });
@@ -283,18 +290,21 @@ function cylinder(){
             var tX = 0;
             window.addEventListener("devicemotion", devicemotion);
             function devicemotion(e){
-                tX = css(mainWrap, 'rotateY');
-                var motion = e.accelerationIncludingGravity;
-                var x = Number((motion.x).toFixed(0));
-                x = getIos()?x:-x;
-                var y = Number((motion.y).toFixed(0));
-                y = getIos()?y:-y;
-                tX += x;
-                css(mainWrap, 'rotateY', tX);
-            }
-        },30);
+                try{
+                    tX = css(mainWrap, 'rotateY');
+                    var motion = e.accelerationIncludingGravity;
+                    var x = Number((motion.x).toFixed(0));
+                    x = getIos()?x:-x;
+                    var y = Number((motion.y).toFixed(0));
+                    y = getIos()?y:-y;
+                    tX += x;
+                    css(mainWrap, 'rotateY', tX);
+                }catch(e){
 
-    });
+                }
+            }
+        },30);}
+    );
 }
 
 function getIos(){
