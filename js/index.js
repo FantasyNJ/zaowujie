@@ -223,17 +223,15 @@ function cylinder(){
     var span = mainWrap.children;
     for(var i = 0; i < span.length;i++){
         var R = Math.abs(Math.round(halfW*Math.tan((180 - deg)/360*Math.PI)));
-        // span[i].style.backgroundImage = 'url('+ dataBg[i] +')';
         css(span[i], 'rotateY', i*deg);
         css(span[i], 'translateZ', -R);
         css(span[i], 'opacity', 0);
     }
 
-    // css(mainWrap, 'scale', 5);  {rotateY: 720,scale: scalePer}
     css(mainWrap, 'translateZ', -5000);
     css(mainWrap, 'rotateY', -900);
     for(var i = 0; i < span.length;i++){
-        movejs(span[i], { opacity: 100 }, 3000, 'easeOut');
+        movejs(span[i], { opacity: 100 }, 1000, 'easeOut');
     }
     movejs(mainWrap, { translateZ:-200,rotateY:0}, 3000, 'easeOut'
         , function(){
